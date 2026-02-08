@@ -17,8 +17,6 @@
 //
 // para sair, prima 'q'
 #include <stdio.h>
-
-
 /*
 Função principal do programa
  - função main é o ponto de entrada: a execução começa aqui.
