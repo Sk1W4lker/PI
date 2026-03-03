@@ -129,6 +129,7 @@ int main() {
   xadrez(5);
   trianguloVertical(5);
   trianguloHorizontal(5);
+  circulo(5);
 
   return 0;
 }
