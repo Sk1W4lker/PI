@@ -451,9 +451,7 @@ void insere(int v[], int N, int x) {
 
 //27
 void merge(int r[], int a[], int b[], int na, int nb) {
-    int i = 0;
-    int j = 0;
-    int k = 0;
+    int i = 0, j = 0, k = 0;
 
     // 1º Passo: Comparar as duas listas enquanto ambas tiverem elementos
     while (i < na && j < nb) {
