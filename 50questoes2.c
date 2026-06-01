@@ -52,12 +52,13 @@ void freeL(LInt l) {
 3. Apresente uma definição não recursiva da função void imprimeL (LInt) que imprime no ecran os elementos de uma lista (um por linha)
 */
 void imprimeL (LInt l) {
-    printf("[ ");
-    while(l != NULL) {
-        printf("%d ", l->valor); // Imprime o valor da estrutura
-        l = l->prox;             // Avança para o próximo
-    }
-    printf("]\n");
+        printf("[ ");
+            while(l != NULL) {
+                    printf("%d ", l->valor); // Imprime o valor da estrutura
+                            l = l->prox;             // Avança para o próximo
+                                }
+                                    printf("]\n");
+                                    }
 }
 
 /*
@@ -321,6 +322,22 @@ int maximo(LInt l) {
 
     return max;
 }
+
+//19
+int take(int n, LInt *l) {
+    int count = 0;
+    while (n > 0 && *l != NULL) {
+        l = &((*l)->prox);
+        count++;
+        n--;
+    }
+
+    freeL(*l);
+    *l = NULL;
+
+    return count;
+}
+
 
 /*
 20. Apresente uma definição iterativa da função int drop (int n, LInt *l) que apaga os n primeiros elementos.
