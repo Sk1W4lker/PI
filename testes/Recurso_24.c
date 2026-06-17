@@ -96,29 +96,46 @@ int expande(char s[]) {
     return tam_final;
 }
 
-/*
+/* 
 5. Defina uma função int todosIguais(ABin a, int n) que testa se 
 todos os valores no nível n de uma árvore são iguais (se não houver nenhum 
 nodo a esse nível a função deve retornar verdadeiro). Serão valorizadas 
 soluções que percorrem poucas vezes a árvore. 
 */
-
-typedef struct ABin_nodo { 
-    int valor; 
-    struct ABin_nodo *esq, *dir; 
-} *ABin; 
-
-
-int todosIguais(ABin a, int n) {
-    // Caso Base 1: Se o nó está vazio, não quebra a regra (retorna verdadeiro)
-    if (a == NULL) return 1;
-
-    if (n == 0) {
-        if(a->esq != NULL && a->valor != a->esq) return 0;
-
-        if(a->dir != NULL && a->valor != a->dir) return 0;
-
+int todosIguaisAux(ABin a, int n, int *primeiro_valor) {
+    // Se a árvore está vazia, não há nós para falharem o teste.
+    // O enunciado diz: "se não houver nenhum nodo a esse nível retorna verdadeiro (1)"
+    if (a == NULL) {
         return 1;
     }
-    return todosIguais(a->esq,n-1) && todosIguais(a->dir,n-1);
+
+    // SE CHEGÁMOS AO NÍVEL N!
+    if (n == 0) {
+        // Se for o PRIMEIRO nó que encontramos neste nível
+        if (*primeiro_valor == -1) {
+            *primeiro_valor = a->valor; // Guardamos o valor dele como padrão
+            return 1;
+        } 
+        // Se já não for o primeiro, comparamos com o padrão
+        else {
+            return (a->valor == *primeiro_valor);
+        }
+    }
+
+    // SE AINDA NÃO CHEGÁMOS AO NÍVEL N, continuamos a descer (n - 1)
+    // Primeiro tentamos o lado esquerdo
+    int esq_ok = todosIguaisAux(a->esq, n - 1, primeiro_valor);
+    
+    // Se a esquerda já falhou (devolveu 0), não vale a pena perder tempo na direita!
+    // Isto cumpre o requisito de "percorrer poucas vezes a árvore" (Short-circuit)
+    if (!esq_ok) return 0;
+
+    // Se a esquerda passou, vamos testar a direita
+    return todosIguaisAux(a->dir, n - 1, primeiro_valor);
+}
+
+// A função oficial que o teu professor pediu
+int todosIguais(ABin a, int n) {
+    int referencia = -1; // -1 vai significar "ainda não encontrámos ninguém no nível n"
+    return todosIguaisAux(a, n, &referencia);
 }

@@ -50,7 +50,7 @@ int acrescenta (Intervalo a, Intervalo c[], int N) {
         j++;
     }
 
-    if(ja_inseriu_a = 0) {
+    if(ja_inseriu_a == 0) {
         pilha[j] = a;
         j++;
     }
@@ -137,24 +137,23 @@ lista resultante
 int removeMenores(LInt *l) {
     if (*l == NULL) return 0; // 
 
-    LInt anterior = NULL;
-    LInt atual = *l;
-    int comprimento = 0; 
+    LInt anterior = *l;
+    LInt atual = (*l)->prox;
+    int count = 0; 
 
     while (atual != NULL) {
-        if(anterior != NULL && atual->valor < anterior->valor) { 
+        if(atual->valor < anterior->valor) { 
             LInt temp = atual->prox;
             anterior->prox = temp;
             free(atual);
             atual = temp;
-        } else {
-            comprimento++; 
+            count++;
+        } else { 
             anterior = atual;
             atual = atual->prox;
         } // Fecho do else
     } 
-
-    return comprimento; 
+    return count; 
 }
 
 /*

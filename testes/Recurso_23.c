@@ -178,41 +178,27 @@ typedef struct abin_nodo {
 } *ABin;
 
 ABin reconstroi(char s[]) {
-    // Variável estática: funciona como o nosso leitor de CD.
-    // Começa em 0 e mantém o seu valor entre todas as chamadas recursivas!
-    static int i = 0;
 
-    // Se o caractere atual for '*', chegámos ao fim deste ramo (NULL)
-    if (s[i] == '*') {
-        i++; // Avança o leitor para o caractere seguinte
+    if(s[0] == '\0') {
         return NULL;
     }
 
-    // Se a string acabar por segurança
-    if (s[i] == '\0') {
-        // Antes de sair, fazemos reset ao 'i' para o caso de a função 
-        // ser testada outra vez com outra string no exame!
-        i = 0; 
-        return NULL;
-    }
+    char c = s[0];
 
-    // 1. Processa a Raiz (Cria o nó)
-    ABin novo = (ABin) malloc(sizeof(struct abin_nodo));
-    novo->valor = s[i] - '0'; // Converte caractere para inteiro
+    int i = 0;
     
-    i++; // Avança o leitor para o caractere seguinte
-
-    // 2. Constrói o ramo da Esquerda
-    novo->esq = reconstroi(s);
-
-    // 3. Constrói o ramo da Direita
-    novo->dir = reconstroi(s);
-
-    // Se voltámos à raiz original (quando a árvore toda terminar), 
-    // fazemos reset ao 'i' para limpar a casa para o próximo teste.
-    if (i == 1) { 
-        i = 0; 
+    while(s[i] != '\0') {
+        // Vamos puxar todas as letras uma posição para a esquerda.
+        s[i] = s[i+1];
+        i++;
     }
 
-    return novo;
+    if(c == "*") return NULL;
+
+    ABin nova = malloc(sizeof(struct ABin_nodo));
+    nova->valor = c - '0'; //Transforma letra em número.
+    nova->esq = reconstroi(s);
+    nova->dir = reconstroi(s);
+
+    return nova;
 }

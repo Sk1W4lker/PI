@@ -3,7 +3,9 @@
 ABin newABin (int r, ABin e, ABin d) {
    ABin a = malloc (sizeof(struct nodo));
    if (a!=NULL) {
-      a->valor = r; a->esq = e; a->dir = d;
+      a->valor = r; 
+      a->esq = e; 
+      a->dir = d;
    }
    return a;
 }
@@ -18,7 +20,7 @@ ABin RandArvFromArray (int v[], int N) {
     return a;	
 }
 
-//calcula a altura de uma  ́arvore.
+//Calcula a altura de uma  ́arvore.
 int altura (ABin a){
     if(a == NULL) return 0;
 
@@ -106,22 +108,41 @@ while(a != NULL &&  a->valor != x) {
 
 //imprime no ecran, por ordem crescente, todos os elementos da  ́arvore que s ̃ao (estritamente) menores do que um dado valor.
 void imprimeAte (ABin a, int x){
-    // 1. Correção do return para função void
     if(a == NULL) return; 
 
-    // 2. Primeiro vamos o mais à esquerda possível (onde estão os menores de todos)
     imprimeAte(a->esq, x);
-
-    // 3. Em vez de um 'while', usamos apenas um 'if' para o nó atual!
-    // Se o valor do nó for menor que x, imprimimos.
+    
     if(a->valor < x) {
         printf("%d ", a->valor);
-        
-        // 4. Só vale a pena ir procurar ao ramo direito se o nó atual 
-        // for menor que x. Se o nó atual já for maior ou igual a x, 
-        // tudo o que está à direita dele também será maior, por isso ignoramos.
         imprimeAte(a->dir, x);
     }
+}
+
+//ou
+void imprimeAte (ABin a, int x) {
+    ABin atual = a;
+    ABin pilha[100];
+    int topo = 0;
+
+    while (atual != NULL || topo > 0) {
+    //Vai guardando todos os numeros até chegar ao menor.
+    while(a != NULL || topo > 0) {
+      pilha[topo] = atual;
+      topo++;
+      atual = atual->esq;
+    }
+
+
+    topo--; //Passa a apontar pro ultimo elemento.
+    atual = pilha[topo]; //Coloca o elemento no atual.
+
+    if(a->valor == x) {
+      return; //Acaba
+    }
+    printf("%d ", atual->valor);
+
+    atual = atual->dir;
+  }
 }
 
 // Isto é só para o compilador não chorar enquanto não fazes a função real
